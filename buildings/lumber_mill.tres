@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://c06kgwiwps3g3"]
+
+[ext_resource type="Script" uid="uid://8it2h0lnyavq" path="res://scripts/data/BuildingData.gd" id="1_wx5o2"]
+
+[resource]
+script = ExtResource("1_wx5o2")
+id = "lumber_mill"
+building_name = "Лесопилка"
+worker_slots = 3
+is_free = true
+production_per_second = {
+"wood": 2
+}
+metadata/_custom_type_script = "uid://8it2h0lnyavq"

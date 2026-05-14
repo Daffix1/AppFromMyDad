@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://c7yfodsbfttgp"]
+
+[ext_resource type="Script" uid="uid://ddfvdffwrj4jy" path="res://scripts/ui/UiController.gd" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://j70raavk2vne" path="res://scripts/world/WorldGenerator.gd" id="2_r0du0"]
+[ext_resource type="Texture2D" uid="uid://dofy2afy8473q" path="res://resources/grass.png" id="3_cm0pq"]
+[ext_resource type="Texture2D" uid="uid://nyepwke7hco5" path="res://resources/lumber_mill.png" id="4_cm0pq"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r0du0"]
+texture = ExtResource("3_cm0pq")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_cm0pq"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_r0du0")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fos0i"]
+resource_name = "lumbermill"
+texture = ExtResource("4_cm0pq")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_lgr22"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_fos0i")
+
+[node name="Main" type="Node2D" unique_id=1026548847]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=721475570]
+anchor_mode = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2135618060]
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=753007504]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_glv2v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI" unique_id=334396567]
+layout_mode = 0
+offset_right = 295.0
+offset_bottom = 89.0
+
+[node name="PopulationLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer" unique_id=915190966]
+layout_mode = 2
+text = "Население: 0"
+horizontal_alignment = 1
+
+[node name="ResourceLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer" unique_id=162904594]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/UI/VBoxContainer" unique_id=2078620015]
+layout_mode = 2
+max_value = 10.0
+
+[node name="SummonButton" type="Button" parent="CanvasLayer/UI/VBoxContainer" unique_id=1032205905]
+layout_mode = 2
+text = "Призвать поселенца"
+
+[node name="BuildLumberMillButton" type="Button" parent="CanvasLayer/UI/VBoxContainer" unique_id=1189128805]
+layout_mode = 2
+text = "Построить лесопилку"
+
+[node name="World" type="Node2D" parent="." unique_id=1704474968]
+script = ExtResource("2_r0du0")
+
+[node name="GroundLayer" type="TileMapLayer" parent="World" unique_id=1823895141]
+tile_set = SubResource("TileSet_cm0pq")
+
+[node name="BuildingLayer" type="TileMapLayer" parent="World" unique_id=51915293]
+tile_set = SubResource("TileSet_lgr22")

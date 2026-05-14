@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Test Game Clicker"
+run/main_scene="uid://c7yfodsbfttgp"
+config/features=PackedStringArray("4.6", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+PopulationManager="*uid://d3lbjg0bmijv5"
+BuildingManager="*uid://v7l12o33bj5n"
+BuildingDatabase="*uid://cmpl4x3g7cvdn"
+ResourceManager="*uid://bqeewy5v2r84c"
+ProductionManager="*uid://c3idmf3rsh8kl"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
