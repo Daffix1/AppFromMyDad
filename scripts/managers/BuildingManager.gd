@@ -69,7 +69,8 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 		"id": building_data.id,
 		"data": building_data,
 		"cell": cell,
-		"workers": 0
+		"workers": 0,
+		"processing_progress": 0.0
 	}
 
 	building_placed.emit(cell, building_data)

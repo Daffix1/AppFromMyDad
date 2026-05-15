@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://6k5qnyt66k0k"]
+
+[ext_resource type="Script" uid="uid://8it2h0lnyavq" path="res://scripts/data/BuildingData.gd" id="1_ol83w"]
+
+[resource]
+script = ExtResource("1_ol83w")
+id = "bakery"
+building_name = "Пекарня"
+worker_slots = 2
+resource_costs = {
+"food": 10,
+"wood": 20
+}
+processing_time = 1.0
+processing_input = {
+"food": 3,
+"wood": 1
+}
+processing_output = {
+"bread": 1
+}
+metadata/_custom_type_script = "uid://8it2h0lnyavq"

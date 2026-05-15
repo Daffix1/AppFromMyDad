@@ -13,7 +13,7 @@ var attraction_points: int = 0
 var required_points: int = 10
 
 # ===== Бонусы =====
-var click_power: int = 1
+var click_power: int = 10
 
 func add_click() -> void:
 	attraction_points += click_power

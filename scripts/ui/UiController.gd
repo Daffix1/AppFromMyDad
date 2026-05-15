@@ -6,6 +6,7 @@ extends Control
 @onready var summon_button: Button = $VBoxContainer/SummonButton
 @onready var build_lumber_mill_button: Button = $VBoxContainer/BuildLumberMillButton
 @onready var build_farm_button: Button = $VBoxContainer/BuildFarmButton
+@onready var build_bakery_button: Button = $VBoxContainer/BuildBakeryButton
 
 func _on_summon_button_pressed() -> void:
 	PopulationManager.add_click()
@@ -15,7 +16,10 @@ func _on_build_lumber_mill_button_pressed() -> void:
 
 func _on_build_farm_button_pressed() -> void:
 	BuildingManager.select_building("farm")
-
+	
+func _on_build_bakery_button_pressed() -> void:
+	BuildingManager.select_building("bakery")
+	
 func update_population_ui() -> void:
 	population_label.text = (
 		"Всего: "
@@ -31,7 +35,8 @@ func update_progress_ui() -> void:
 func update_resources_ui() -> void:
 	var wood := ResourceManager.get_resource("wood")
 	var food := ResourceManager.get_resource("food")
-	resource_label.text = "Дерево: %s | Еда: %s" % [wood, food]
+	var bread := ResourceManager.get_resource("bread")
+	resource_label.text = "Дерево: %s | Еда: %s | Хлеб: %s" % [wood, food, bread]
 
 func _ready() -> void:
 	update_population_ui()
@@ -44,3 +49,4 @@ func _ready() -> void:
 	summon_button.pressed.connect(_on_summon_button_pressed)
 	build_lumber_mill_button.pressed.connect(_on_build_lumber_mill_button_pressed)
 	build_farm_button.pressed.connect(_on_build_farm_button_pressed)
+	build_bakery_button.pressed.connect(_on_build_bakery_button_pressed)

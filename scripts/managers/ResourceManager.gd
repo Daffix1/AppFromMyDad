@@ -4,7 +4,8 @@ signal resources_changed
 
 var resources: Dictionary = {
 	"wood": 0,
-	"food": 0
+	"food": 0,
+	"bread": 0
 }
 
 func add_resource(resource_id: String, amount: int) -> void:

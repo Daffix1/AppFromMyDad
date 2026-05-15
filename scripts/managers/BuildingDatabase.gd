@@ -8,6 +8,7 @@ func  _ready() -> void:
 func load_buildings() -> void:
 	register_building("res://buildings/lumber_mill.tres")
 	register_building("res://buildings/farm.tres")
+	register_building("res://buildings/bakery.tres")
 
 func register_building(path: String) -> void:
 	var building_data: BuildingData = load(path)
