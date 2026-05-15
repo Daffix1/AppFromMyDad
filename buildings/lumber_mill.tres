@@ -8,6 +8,9 @@ id = "lumber_mill"
 building_name = "Лесопилка"
 worker_slots = 3
 is_free = true
+resource_costs = {
+"wood": 10
+}
 production_per_second = {
 "wood": 2
 }

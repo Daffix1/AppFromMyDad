@@ -19,6 +19,20 @@ func has_selected_building() -> bool:
 
 func can_place_building(cell: Vector2i) -> bool:
 	return not placed_buildings.has(cell)
+	
+func get_building_count(building_id: String) -> int:
+	var count := 0
+	
+	for building in placed_buildings.values():
+		if building["id"] == building_id:
+			count += 1
+			
+	return count
+
+func should_build_for_free(building_data: BuildingData) -> bool:
+	if not building_data.is_free:
+		return false
+	return get_building_count(building_data.id) == 0
 
 func place_selected_building(cell: Vector2i) -> bool:
 	if not has_selected_building():
@@ -39,6 +53,17 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 	if not can_place_building(cell):
 		print("Клетка занята: ", cell)
 		return false
+
+	var build_for_free := should_build_for_free(building_data)
+
+	if not build_for_free:
+		if not ResourceManager.has_resources(building_data.resource_costs):
+			print("Недостаточно ресурсов для строительства: ", building_data.building_name)
+			return false
+
+		if not ResourceManager.spend_resources(building_data.resource_costs):
+			print("Не удалось списать ресурсы для строительства: ", building_data.building_name)
+			return false
 
 	placed_buildings[cell] = {
 		"id": building_data.id,

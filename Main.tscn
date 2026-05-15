@@ -64,6 +64,10 @@ text = "Призвать поселенца"
 layout_mode = 2
 text = "Построить лесопилку"
 
+[node name="BuildFarmButton" type="Button" parent="CanvasLayer/UI/VBoxContainer" unique_id=1236288656]
+layout_mode = 2
+text = "Построить ферму"
+
 [node name="World" type="Node2D" parent="." unique_id=1704474968]
 script = ExtResource("2_r0du0")
 
