@@ -1,12 +1,10 @@
 extends Control
 
-
 @onready var population_label: Label = $VBoxContainer/PopulationLabel
 @onready var resource_label: Label = $VBoxContainer/ResourceLabel
 @onready var progress_bar: ProgressBar = $VBoxContainer/ProgressBar
 @onready var summon_button: Button = $VBoxContainer/SummonButton
 @onready var build_lumber_mill_button: Button = $VBoxContainer/BuildLumberMillButton
-
 
 func _on_summon_button_pressed() -> void:
 	PopulationManager.add_click()
