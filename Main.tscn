@@ -60,17 +60,8 @@ max_value = 10.0
 layout_mode = 2
 text = "Призвать поселенца"
 
-[node name="BuildLumberMillButton" type="Button" parent="CanvasLayer/UI/VBoxContainer" unique_id=1189128805]
+[node name="BuildMenuContainer" type="VBoxContainer" parent="CanvasLayer/UI/VBoxContainer" unique_id=290582852]
 layout_mode = 2
-text = "Построить лесопилку"
-
-[node name="BuildFarmButton" type="Button" parent="CanvasLayer/UI/VBoxContainer" unique_id=1236288656]
-layout_mode = 2
-text = "Построить ферму"
-
-[node name="BuildBakeryButton" type="Button" parent="CanvasLayer/UI/VBoxContainer" unique_id=190894890]
-layout_mode = 2
-text = "Построить пекарню"
 
 [node name="World" type="Node2D" parent="." unique_id=1704474968]
 script = ExtResource("2_r0du0")

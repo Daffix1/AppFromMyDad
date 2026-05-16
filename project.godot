@@ -22,6 +22,7 @@ BuildingManager="*uid://v7l12o33bj5n"
 BuildingDatabase="*uid://cmpl4x3g7cvdn"
 ResourceManager="*uid://bqeewy5v2r84c"
 ProductionManager="*uid://c3idmf3rsh8kl"
+ResourceDataBase="*uid://dif1o6bitd8dx"
 
 [physics]
 

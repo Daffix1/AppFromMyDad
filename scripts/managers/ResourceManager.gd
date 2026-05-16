@@ -16,7 +16,7 @@ func add_resource(resource_id: String, amount: int) -> void:
 	
 	resources_changed.emit()
 	
-func get_resource(resource_id: String) -> int:
+func get_resource_count(resource_id: String) -> int:
 	if not resources.has(resource_id):
 		return 0
 	return resources[resource_id]
@@ -24,7 +24,7 @@ func get_resource(resource_id: String) -> int:
 func has_resources(costs: Dictionary) -> bool:
 	for resource_id in costs.keys():
 		var required_amount: int = costs[resource_id]
-		var current_amount: int = get_resource(resource_id)
+		var current_amount: int = get_resource_count(resource_id)
 
 		if current_amount < required_amount:
 			return false

@@ -62,7 +62,7 @@ func process_building_cycle(
 	workers: int,
 	delta_seconds: float
 ) -> void:
-	building["processing_progress"] =+ delta_seconds
+	building["processing_progress"] += delta_seconds
 	
 	if building["processing_progress"] < building_data.processing_time:
 		return
