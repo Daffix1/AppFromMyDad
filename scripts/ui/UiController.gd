@@ -59,7 +59,7 @@ func get_build_button_text(building_data: BuildingData) -> String:
 
 	for resource_id in building_data.resource_costs.keys():
 		var amount: int = building_data.resource_costs[resource_id]
-		var display_name := ResourceDataBase.get_resuorce_display_name(resource_id)
+		var display_name := ResourceDatabase.get_resuorce_display_name(resource_id)
 		cost_parts.append(display_name + ": " + str(amount))
 
 	return text + " | " + ", ".join(cost_parts)
@@ -88,6 +88,6 @@ func update_resources_ui() -> void:
 	
 	for resource_id in ResourceManager.resources.keys():
 		var amount := ResourceManager.get_resource_count(resource_id)
-		var display_name := ResourceDataBase.get_resuorce_display_name(resource_id)
+		var display_name := ResourceDatabase.get_resuorce_display_name(resource_id)
 		resource_parts.append(display_name + ": " + str(amount))
 	resource_label.text = " | ".join(resource_parts)

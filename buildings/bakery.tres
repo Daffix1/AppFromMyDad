@@ -11,7 +11,6 @@ resource_costs = {
 "food": 10,
 "wood": 20
 }
-processing_time = 1.0
 processing_input = {
 "food": 3,
 "wood": 1

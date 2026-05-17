@@ -22,6 +22,7 @@ func register_building(path: String) -> void:
 		
 	buildings[building_data.id] = building_data
 	print("Здание загружено: ", building_data.building_name)
+	print(buildings.keys())
 
 
 func get_building(building_id: String) -> BuildingData:
