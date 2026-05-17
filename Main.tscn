@@ -74,6 +74,18 @@ text = "Здание не выбрано"
 layout_mode = 2
 text = "Рабочих 0 / 0"
 
+[node name="SelectedBuildingProductionLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel" unique_id=1015243072]
+layout_mode = 2
+text = "Производство - "
+
+[node name="SelectedBuildingProgressLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel" unique_id=429000745]
+layout_mode = 2
+text = "Прогресс - "
+
+[node name="SelectedBuildingStatusLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel" unique_id=1005990223]
+layout_mode = 2
+text = "Статус -"
+
 [node name="WorkerButtonsContainer" type="HBoxContainer" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel" unique_id=886690107]
 layout_mode = 2
 

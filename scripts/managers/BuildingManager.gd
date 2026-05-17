@@ -2,6 +2,7 @@ extends Node
 
 signal building_placed
 signal building_selected
+signal building_workers_changed
 
 var placed_buildings: Dictionary = {}
 var selected_building_id: String = ""
@@ -91,7 +92,8 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 		"data": building_data,
 		"cell": cell,
 		"workers": 0,
-		"processing_progress": 0.0
+		"processing_progress": 0.0,
+		"is_processing": false
 	}
 
 	building_placed.emit(cell, building_data)
@@ -117,6 +119,7 @@ func assign_worker_to_building(cell: Vector2i) -> bool:
 		return false
 		
 	building["workers"] += 1
+	building_workers_changed.emit(cell, building)
 
 	print(
 		"Рабочий назначен в ",
@@ -124,6 +127,7 @@ func assign_worker_to_building(cell: Vector2i) -> bool:
 		". Рабочих: ",
 		building["workers"]
 	)
+
 	return true
 
 func remove_worker_from_building(cell: Vector2i) -> bool:
@@ -139,6 +143,7 @@ func remove_worker_from_building(cell: Vector2i) -> bool:
 
 	building["workers"] -= 1
 	PopulationManager.remove_worker()
+	building_workers_changed.emit(cell, building)
 
 	print(
 		"Рабочий убран из ",

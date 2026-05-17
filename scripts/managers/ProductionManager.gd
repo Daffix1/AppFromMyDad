@@ -1,7 +1,8 @@
 extends Node
 
-const PRODUCTION_TICK_SECONDS: float = 1.0
+signal building_processing_progress_changed
 
+const PRODUCTION_TICK_SECONDS: float = 1.0
 
 func _ready() -> void:
 	start_production_loop()
@@ -56,45 +57,53 @@ func produce_passive_resources(building_data: BuildingData, workers: int) -> voi
 		)
 
 
-func process_building_cycle(
-	building: Dictionary,
-	building_data: BuildingData,
-	workers: int,
-	delta_seconds: float
-) -> void:
-	building["processing_progress"] += delta_seconds
-	
-	if building["processing_progress"] < building_data.processing_time:
-		return
+func process_building_cycle(building: Dictionary, building_data: BuildingData, workers: int, delta_seconds: float) -> void:
+	if not building.has("is_processing"):
+		building["is_processing"] = false
 		
-	building["processing_progress"] = 0.0
-	
 	var total_input := multiply_resource_dictionary(
 		building_data.processing_input,
 		workers
 	)
-	
+
 	var total_output := multiply_resource_dictionary(
 		building_data.processing_output,
 		workers
 	)
-	
-	if not ResourceManager.has_resources(total_input):
-		print("Не хватает ресурсов для переработки в здании: ", building_data.building_name)
+
+	if not building["is_processing"]:
+		if not ResourceManager.has_resources(total_input):
+			if building["processing_progress"] != 0.0:
+				building["processing_progress"] = 0.0
+				building_processing_progress_changed.emit(building["cell"], building)
+
+			print("Не хватает ресурсов для старта переработки в здании: ", building_data.building_name)
+			return
+
+		if not ResourceManager.spend_resources(total_input):
+			print("Не удалось списать ресурсы для старта переработки: ", building_data.building_name)
+			return
+
+		building["is_processing"] = true
+		building["processing_progress"] = 0.0
+		building_processing_progress_changed.emit(building["cell"], building)
+
+	building["processing_progress"] += delta_seconds
+	building_processing_progress_changed.emit(building["cell"], building)
+
+	if building["processing_progress"] < building_data.processing_time:
 		return
-		
-	if not ResourceManager.spend_resources(total_input):
-		print("Не удалось списать ресурсы для переработки: ", building_data.building_name)
-		return
-	
+
+	building["processing_progress"] = 0.0
+	building["is_processing"] = false
+	building_processing_progress_changed.emit(building["cell"], building)
+
 	for resource_id in total_output.keys():
-		ResourceManager.add_resource(resource_id, total_output[resource_id]) 
-		
+		ResourceManager.add_resource(resource_id, total_output[resource_id])
+
 	print(
 		building_data.building_name,
-		" переработал ",
-		total_input,
-		" в ",
+		" завершил переработку и произвёл ",
 		total_output
 	)
 
