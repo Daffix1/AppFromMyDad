@@ -22,18 +22,31 @@ func _on_building_placed(cell: Vector2i, _building_data: BuildingData) -> void:
 	)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			var cell := get_mouse_cell()
-			
-			if BuildingManager.has_selected_building():
-				BuildingManager.place_selected_building(cell)
-			else:
-				if BuildingManager.placed_buildings.has(cell):
-					BuildingManager.select_placed_building(cell)
-				else:
-					BuildingManager.clear_selected_placed_building()
-					print("Клик по клетке: ", cell)
+	if not event is InputEventMouseButton:
+		return
+
+	if not event.pressed:
+		return
+
+	if event.button_index == MOUSE_BUTTON_RIGHT:
+		BuildingManager.cancel_selected_building()
+		return
+
+	if event.button_index != MOUSE_BUTTON_LEFT:
+		return
+
+	var cell := get_mouse_cell()
+
+	if BuildingManager.has_selected_building():
+		BuildingManager.place_selected_building(cell)
+		return
+
+	if BuildingManager.placed_buildings.has(cell):
+		BuildingManager.select_placed_building(cell)
+		return
+
+	BuildingManager.clear_selected_placed_building()
+	print("Клик по клетке: ", cell)
 
 func get_mouse_cell() -> Vector2i:
 	var mouse_world_position := get_global_mouse_position()

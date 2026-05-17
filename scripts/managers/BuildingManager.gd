@@ -9,6 +9,7 @@ var selected_building_id: String = ""
 var selected_building_cell: Vector2i = Vector2i(-9999,-9999)
 
 
+# ________________         Выбор здания для строительства         ________________
 func select_building(building_id: String) -> void:
 	var building_data := BuildingDatabase.get_building(building_id)
 	if building_data == null:
@@ -22,49 +23,24 @@ func has_selected_building() -> bool:
 	return selected_building_id != ""
 
 
+func cancel_selected_building() -> void:
+	if not has_selected_building():
+		return
+
+	var building_data := BuildingDatabase.get_building(selected_building_id)
+
+	if building_data != null:
+		print("Строительство отменено: ", building_data.building_name)
+	else:
+		print("Строительство отменено")
+
+	selected_building_id = ""
+
+
+# ________________         Проверки строительства         ________________
 func can_place_building(cell: Vector2i) -> bool:
 	return not placed_buildings.has(cell)
-
-
-func get_building_count(building_id: String) -> int:
-	var count := 0
 	
-	for building in placed_buildings.values():
-		if building["id"] == building_id:
-			count += 1
-			
-	return count
-
-
-func should_build_for_free(building_data: BuildingData) -> bool:
-	if not building_data.is_free:
-		return false
-	return get_building_count(building_data.id) == 0
-
-
-func place_selected_building(cell: Vector2i) -> bool:
-	if not has_selected_building():
-		return false
-	var success := place_building(cell, selected_building_id)
-	
-	if success:
-		selected_building_id = ""
-		
-	return success
-
-
-func select_placed_building(cell: Vector2i) -> void:
-	if not placed_buildings.has(cell):
-		clear_selected_placed_building()
-		return
-	selected_building_cell = cell
-	building_selected.emit(cell, placed_buildings[cell])
-
-
-func clear_selected_placed_building() -> void:
-	selected_building_cell = Vector2i(-9999,-9999)
-	building_selected.emit(selected_building_cell, {})
-
 
 func place_building(cell: Vector2i, building_id: String) -> bool:
 	var building_data := BuildingDatabase.get_building(building_id)
@@ -103,7 +79,49 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 	return true
 
 
+func place_selected_building(cell: Vector2i) -> bool:
+	if not has_selected_building():
+		return false
+	var success := place_building(cell, selected_building_id)
+	
+	if success:
+		selected_building_id = ""
+		
+	return success
+
+
+# ________________         Проверка на бесплатность        ________________
+func should_build_for_free(building_data: BuildingData) -> bool:
+	if not building_data.is_free:
+		return false
+	return get_building_count(building_data.id) == 0
+	
+func get_building_count(building_id: String) -> int:
+	var count := 0
+	
+	for building in placed_buildings.values():
+		if building["id"] == building_id:
+			count += 1
+			
+	return count
+
+
+func select_placed_building(cell: Vector2i) -> void:
+	if not placed_buildings.has(cell):
+		clear_selected_placed_building()
+		return
+	selected_building_cell = cell
+	building_selected.emit(cell, placed_buildings[cell])
+
+
+func clear_selected_placed_building() -> void:
+	selected_building_cell = Vector2i(-9999,-9999)
+	building_selected.emit(selected_building_cell, {})
+
+
+# ________________         Добавление и удаление рабочих         ________________
 func assign_worker_to_building(cell: Vector2i) -> bool:
+	
 	if not placed_buildings.has(cell):
 		return false
 		
@@ -129,6 +147,7 @@ func assign_worker_to_building(cell: Vector2i) -> bool:
 	)
 
 	return true
+
 
 func remove_worker_from_building(cell: Vector2i) -> bool:
 	if not placed_buildings.has(cell):
