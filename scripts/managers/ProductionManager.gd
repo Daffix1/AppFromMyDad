@@ -61,12 +61,12 @@ func process_building_cycle(building: Dictionary, building_data: BuildingData, w
 	if not building.has("is_processing"):
 		building["is_processing"] = false
 		
-	var total_input := multiply_resource_dictionary(
+	var total_input := ResourceUtils.multiply_resource_dictionary(
 		building_data.processing_input,
 		workers
 	)
 
-	var total_output := multiply_resource_dictionary(
+	var total_output := ResourceUtils.multiply_resource_dictionary(
 		building_data.processing_output,
 		workers
 	)
@@ -106,23 +106,3 @@ func process_building_cycle(building: Dictionary, building_data: BuildingData, w
 		" завершил переработку и произвёл ",
 		total_output
 	)
-
-
-func multiply_resource_dictionary(source: Dictionary, multiplier: int) -> Dictionary:
-	var result := {}
-	
-	for resource_id in source.keys():
-		result[resource_id] = source[resource_id] * multiplier
-	
-	return result
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
