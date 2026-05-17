@@ -63,6 +63,28 @@ text = "Призвать поселенца"
 [node name="BuildMenuContainer" type="VBoxContainer" parent="CanvasLayer/UI/VBoxContainer" unique_id=290582852]
 layout_mode = 2
 
+[node name="SelectedBuildingPanel" type="VBoxContainer" parent="CanvasLayer/UI/VBoxContainer" unique_id=943062837]
+layout_mode = 2
+
+[node name="SelectedBuildingNameLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel" unique_id=1811912775]
+layout_mode = 2
+text = "Здание не выбрано"
+
+[node name="SelectedBuildingWorkersLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel" unique_id=1434848244]
+layout_mode = 2
+text = "Рабочих 0 / 0"
+
+[node name="WorkerButtonsContainer" type="HBoxContainer" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel" unique_id=886690107]
+layout_mode = 2
+
+[node name="AddWorkerButton" type="Button" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel/WorkerButtonsContainer" unique_id=1129312899]
+layout_mode = 2
+text = "+"
+
+[node name="RemoveWorkerButton" type="Button" parent="CanvasLayer/UI/VBoxContainer/SelectedBuildingPanel/WorkerButtonsContainer" unique_id=736366879]
+layout_mode = 2
+text = "-"
+
 [node name="World" type="Node2D" parent="." unique_id=1704474968]
 script = ExtResource("2_r0du0")
 

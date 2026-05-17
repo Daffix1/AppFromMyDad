@@ -30,8 +30,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				BuildingManager.place_selected_building(cell)
 			else:
 				if BuildingManager.placed_buildings.has(cell):
-					BuildingManager.assing_worker_to_building(cell)
+					BuildingManager.select_placed_building(cell)
 				else:
+					BuildingManager.clear_selected_placed_building()
 					print("Клик по клетке: ", cell)
 
 func get_mouse_cell() -> Vector2i:

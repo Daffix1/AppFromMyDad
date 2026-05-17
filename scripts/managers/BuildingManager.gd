@@ -1,9 +1,11 @@
 extends Node
 
 signal building_placed
+signal building_selected
 
 var placed_buildings: Dictionary = {}
 var selected_building_id: String = ""
+var selected_building_cell: Vector2i = Vector2i(-9999,-9999)
 
 
 func select_building(building_id: String) -> void:
@@ -14,12 +16,15 @@ func select_building(building_id: String) -> void:
 	selected_building_id = building_id
 	print("Выбрано здание: ", building_data.building_name)
 
+
 func has_selected_building() -> bool:
 	return selected_building_id != ""
 
+
 func can_place_building(cell: Vector2i) -> bool:
 	return not placed_buildings.has(cell)
-	
+
+
 func get_building_count(building_id: String) -> int:
 	var count := 0
 	
@@ -29,10 +34,12 @@ func get_building_count(building_id: String) -> int:
 			
 	return count
 
+
 func should_build_for_free(building_data: BuildingData) -> bool:
 	if not building_data.is_free:
 		return false
 	return get_building_count(building_data.id) == 0
+
 
 func place_selected_building(cell: Vector2i) -> bool:
 	if not has_selected_building():
@@ -43,6 +50,20 @@ func place_selected_building(cell: Vector2i) -> bool:
 		selected_building_id = ""
 		
 	return success
+
+
+func select_placed_building(cell: Vector2i) -> void:
+	if not placed_buildings.has(cell):
+		clear_selected_placed_building()
+		return
+	selected_building_cell = cell
+	building_selected.emit(cell, placed_buildings[cell])
+
+
+func clear_selected_placed_building() -> void:
+	selected_building_cell = Vector2i(-9999,-9999)
+	building_selected.emit(selected_building_cell, {})
+
 
 func place_building(cell: Vector2i, building_id: String) -> bool:
 	var building_data := BuildingDatabase.get_building(building_id)
@@ -78,8 +99,9 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 	print("Построено здание: ", building_data.building_name, " в клетке ", cell)
 
 	return true
-	
-func assing_worker_to_building(cell: Vector2i) -> bool:
+
+
+func assign_worker_to_building(cell: Vector2i) -> bool:
 	if not placed_buildings.has(cell):
 		return false
 		
@@ -104,5 +126,25 @@ func assing_worker_to_building(cell: Vector2i) -> bool:
 	)
 	return true
 
-	
-	
+func remove_worker_from_building(cell: Vector2i) -> bool:
+	if not placed_buildings.has(cell):
+		return false
+
+	var building = placed_buildings[cell]
+	var building_data: BuildingData = building["data"]
+
+	if building["workers"] <= 0:
+		print("В здании нет рабочих")
+		return false
+
+	building["workers"] -= 1
+	PopulationManager.remove_worker()
+
+	print(
+		"Рабочий убран из ",
+		building_data.building_name,
+		". Рабочих: ",
+		building["workers"]
+	)
+
+	return true
