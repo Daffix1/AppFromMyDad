@@ -1,10 +1,9 @@
-extends Control
+extends Node
 
-# Основное меню с ресурсами
-@onready var population_label: Label = $VBoxContainer/PopulationLabel
-@onready var resource_label: Label = $VBoxContainer/ResourceLabel
-@onready var progress_bar: ProgressBar = $VBoxContainer/ProgressBar
-@onready var summon_button: Button = $VBoxContainer/SummonButton
+@onready var resource_label: Label = $"../TopBarPanel/TopBar/ResourceLabel"
+@onready var population_label: Label = $"../TopBarPanel/TopBar/PopulationLabel"
+@onready var progress_bar: ProgressBar = $"../TopBarPanel/TopBar/ProgressBar"
+@onready var summon_button: Button = $"../LeftPanel/SummonButton"
 
 
 # Кнопка призыва рабочего	
@@ -14,6 +13,7 @@ func _on_summon_button_pressed() -> void:
 # ________________         обновление всех лейблов на экране        ________________
 func update_population_ui() -> void:
 	population_label.text = (
+		"Поселенцы:\n" +
 		"Всего: "
 		+ str(PopulationManager.total_population)
 		+ " | Свободно: "
