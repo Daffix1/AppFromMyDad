@@ -3,6 +3,7 @@ extends Node
 signal building_placed
 signal building_selected
 signal building_workers_changed
+signal selected_building_changed 
 
 var placed_buildings: Dictionary = {}
 var selected_building_id: String = ""
@@ -16,6 +17,7 @@ func select_building(building_id: String) -> void:
 		return
 		
 	selected_building_id = building_id
+	selected_building_changed.emit(selected_building_id, building_data)
 	print("Выбрано здание: ", building_data.building_name)
 
 
@@ -35,6 +37,7 @@ func cancel_selected_building() -> void:
 		print("Строительство отменено")
 
 	selected_building_id = ""
+	selected_building_changed.emit(selected_building_id, null)
 
 
 # ________________         Проверки строительства         ________________
@@ -86,6 +89,7 @@ func place_selected_building(cell: Vector2i) -> bool:
 	
 	if success:
 		selected_building_id = ""
+		selected_building_changed.emit(selected_building_id, null)
 		
 	return success
 
