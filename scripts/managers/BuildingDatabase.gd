@@ -5,8 +5,7 @@ var buildings: Dictionary = {}
 
 func  _ready() -> void:
 	load_buildings()
-
-
+	
 func load_buildings() -> void:
 	register_building("res://buildings/lumber_mill.tres")
 	register_building("res://buildings/farm.tres")
