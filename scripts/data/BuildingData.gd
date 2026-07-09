@@ -15,3 +15,6 @@ class_name BuildingData
 
 @export var processing_input: Dictionary = {}
 @export var processing_output: Dictionary = {}
+
+@export var tile_source_id: int = 0
+@export var tile_atlas_coords: Vector2i = Vector2i.ZERO

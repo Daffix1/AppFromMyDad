@@ -14,11 +14,11 @@ func _ready() -> void:
 	generate_map()
 	BuildingManager.building_placed.connect(_on_building_placed)
 
-func _on_building_placed(cell: Vector2i, _building_data: BuildingData) -> void:
+func _on_building_placed(cell: Vector2i, building_data: BuildingData) -> void:
 	building_layer.set_cell(
 		cell,
-		building_source_id,
-		Vector2i.ZERO
+		building_data.tile_source_id,
+		building_data.tile_atlas_coords
 	)
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -1,6 +1,8 @@
 [gd_resource type="TileSet" format=3 uid="uid://buvljtf58do7c"]
 
 [ext_resource type="Texture2D" uid="uid://nyepwke7hco5" path="res://resources/lumber_mill.png" id="1_vy0hx"]
+[ext_resource type="Texture2D" uid="uid://dbc415ta175pq" path="res://resources/bakery.png" id="2_xou7s"]
+[ext_resource type="Texture2D" uid="uid://v5a0a1yk5b5g" path="res://resources/farm.png" id="3_blck0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fos0i"]
 resource_name = "lumbermill"
@@ -8,6 +10,18 @@ texture = ExtResource("1_vy0hx")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m28st"]
+texture = ExtResource("2_xou7s")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3vbh1"]
+texture = ExtResource("3_blck0")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
 [resource]
 tile_size = Vector2i(64, 64)
 sources/0 = SubResource("TileSetAtlasSource_fos0i")
+sources/1 = SubResource("TileSetAtlasSource_m28st")
+sources/2 = SubResource("TileSetAtlasSource_3vbh1")

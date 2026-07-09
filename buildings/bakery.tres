@@ -18,4 +18,5 @@ processing_input = {
 processing_output = {
 "bread": 1
 }
+tile_source_id = 1
 metadata/_custom_type_script = "uid://8it2h0lnyavq"

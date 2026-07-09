@@ -1,8 +1,6 @@
 extends Node2D
 
 @export var cell_size: Vector2 = Vector2(64, 64)
-@export var preview_source_id: int = 0
-@export var preview_atlas_coords: Vector2i = Vector2i.ZERO
 
 @onready var ground_layer: TileMapLayer = $"../GroundLayer"
 @onready var preview_layer: TileMapLayer = $"../PreviewLayer"
@@ -45,11 +43,17 @@ func _draw() -> void:
 
 func update_preview() -> void:
 	clear_preview()
+	
+	var building_data := BuildingManager.get_selected_building_data()
+	
+	if building_data == null:
+		return
+		
 
 	preview_layer.set_cell(
 		current_cell,
-		preview_source_id,
-		preview_atlas_coords
+		building_data.tile_source_id,
+		building_data.tile_atlas_coords
 	)
 
 	previous_preview_cell = current_cell

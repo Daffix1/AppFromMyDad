@@ -31,6 +31,11 @@ func select_building(building_id: String) -> void:
 func has_selected_building() -> bool:
 	return selected_building_id != ""
 
+func get_selected_building_data() -> BuildingData:
+	if not has_selected_building():
+		return null
+	return BuildingDatabase.get_building(selected_building_id)
+
 
 func cancel_selected_building() -> void:
 	if not has_selected_building():
