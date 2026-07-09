@@ -3,12 +3,19 @@ extends Node
 signal building_placed
 signal building_selected
 signal building_workers_changed
-signal selected_building_changed 
+signal selected_building_changed
+signal building_message_changed
 
 var placed_buildings: Dictionary = {}
 var selected_building_id: String = ""
 var selected_building_cell: Vector2i = Vector2i(-9999,-9999)
 
+
+# ________________         Сообщения о строительстве         ________________
+
+func show_building_message(text: String) -> void:
+	building_message_changed.emit(text)
+	print(text)
 
 # ________________         Выбор здания для строительства         ________________
 func select_building(building_id: String) -> void:
@@ -18,7 +25,7 @@ func select_building(building_id: String) -> void:
 		
 	selected_building_id = building_id
 	selected_building_changed.emit(selected_building_id, building_data)
-	print("Выбрано здание: ", building_data.building_name)
+	show_building_message("Выбрано здание: " + building_data.building_name)
 
 
 func has_selected_building() -> bool:
@@ -32,9 +39,9 @@ func cancel_selected_building() -> void:
 	var building_data := BuildingDatabase.get_building(selected_building_id)
 
 	if building_data != null:
-		print("Строительство отменено: ", building_data.building_name)
+		show_building_message("Строительство отменено: " + building_data.building_name)
 	else:
-		print("Строительство отменено")
+		show_building_message("Строительство отменено")
 
 	selected_building_id = ""
 	selected_building_changed.emit(selected_building_id, null)
@@ -52,18 +59,18 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 		return false
 
 	if not can_place_building(cell):
-		print("Клетка занята: ", cell)
+		show_building_message("Клетка занята:")
 		return false
 
 	var build_for_free := should_build_for_free(building_data)
 
 	if not build_for_free:
 		if not ResourceManager.has_resources(building_data.resource_costs):
-			print("Недостаточно ресурсов для строительства: ", building_data.building_name)
+			show_building_message("Недостаточно ресурсов для строительства: " + building_data.building_name)
 			return false
 
 		if not ResourceManager.spend_resources(building_data.resource_costs):
-			print("Не удалось списать ресурсы для строительства: ", building_data.building_name)
+			show_building_message("Не удалось списать ресурсы для строительства: " + building_data.building_name)
 			return false
 
 	placed_buildings[cell] = {
@@ -77,7 +84,7 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 
 	building_placed.emit(cell, building_data)
 
-	print("Построено здание: ", building_data.building_name, " в клетке ", cell)
+	show_building_message("Построено здание: " + building_data.building_name)
 
 	return true
 

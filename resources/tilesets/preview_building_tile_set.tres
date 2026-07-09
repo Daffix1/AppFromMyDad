@@ -1,0 +1,14 @@
+[gd_resource type="TileSet" format=3 uid="uid://bu5qtasolax21"]
+
+[ext_resource type="Texture2D" uid="uid://nyepwke7hco5" path="res://resources/lumber_mill.png" id="1_dcgkc"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fos0i"]
+resource_name = "lumbermill"
+texture = ExtResource("1_dcgkc")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.49803922)
+
+[resource]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_fos0i")

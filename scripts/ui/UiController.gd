@@ -5,7 +5,7 @@ extends Node
 @onready var progress_bar: ProgressBar = $"../TopBarPanel/TopBar/ProgressBar"
 @onready var summon_button: Button = $"../LeftPanel/SummonButton"
 @onready var buildmodelabel: Label = $"../LeftPanel/BuildModeLabel"
-
+@onready var statuslabel: Label = $"../LeftPanel/StatusLabel"
 
 # Кнопка призыва рабочего	
 func _on_summon_button_pressed() -> void:
@@ -43,6 +43,9 @@ func update_build_mode_ui(_building_id: String = "", building_data = null) -> vo
 		+ "\nЛКМ — построить"
 		+ "\nПКМ — отменить"
 	)
+
+func update_status_ui(text: String) -> void:
+	statuslabel.text = text
 	
 # ________________         Инициализация при запуске         ________________
 func _ready() -> void:
@@ -50,10 +53,12 @@ func _ready() -> void:
 	update_progress_ui()
 	update_resources_ui()
 	update_build_mode_ui()
+	update_status_ui("Готово к строительству")
 	
 	PopulationManager.population_changed.connect(update_population_ui)
 	PopulationManager.progress_changed.connect(update_progress_ui)
 	ResourceManager.resources_changed.connect(update_resources_ui)
 	BuildingManager.selected_building_changed.connect(update_build_mode_ui)
-
+	BuildingManager.building_message_changed.connect(update_status_ui)
+	
 	summon_button.pressed.connect(_on_summon_button_pressed)
