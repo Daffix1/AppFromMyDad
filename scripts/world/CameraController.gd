@@ -5,11 +5,15 @@ extends Camera2D
 @export var min_zoom: float = 0.5
 @export var max_zoom: float = 2.5
 
-var is_dragging: bool = false
+@onready var world_generator: Node2D = $"../World"
 
+var is_dragging: bool = false
+var map_world_rect: Rect2
 
 func _ready() -> void:
 	make_current()
+	map_world_rect = world_generator.get_map_world_rect()
+	clamp_camera_to_map()
 
 
 func _process(delta: float) -> void:
@@ -40,6 +44,7 @@ func handle_keyboard_movement(delta: float) -> void:
 		return
 
 	position += direction.normalized() * move_speed * delta / zoom.x
+	clamp_camera_to_map()
 
 
 func handle_mouse_drag(event: InputEvent) -> void:
@@ -49,6 +54,7 @@ func handle_mouse_drag(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion and is_dragging:
 		position -= event.relative / zoom.x
+		clamp_camera_to_map()
 
 
 func handle_mouse_zoom(event: InputEvent) -> void:
@@ -73,3 +79,32 @@ func change_zoom(new_zoom: float) -> void:
 	
 	var mouse_world_position_after_zoom: Vector2 = get_global_mouse_position()
 	global_position += mouse_world_position_before_zoom - mouse_world_position_after_zoom
+	clamp_camera_to_map()
+
+func clamp_camera_to_map() -> void:
+	var half_view_size: Vector2 = get_viewport_rect().size / (2.0 * zoom)
+
+	var min_position := map_world_rect.position + half_view_size
+	var max_position := map_world_rect.end - half_view_size
+
+	var target_position := global_position
+
+	if min_position.x > max_position.x:
+		target_position.x = map_world_rect.get_center().x
+	else:
+		target_position.x = clampf(
+			target_position.x,
+			min_position.x,
+			max_position.x
+		)
+
+	if min_position.y > max_position.y:
+		target_position.y = map_world_rect.get_center().y
+	else:
+		target_position.y = clampf(
+			target_position.y,
+			min_position.y,
+			max_position.y
+		)
+
+	global_position = target_position

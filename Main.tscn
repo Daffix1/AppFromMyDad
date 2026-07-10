@@ -23,10 +23,6 @@ sources/0 = SubResource("TileSetAtlasSource_r0du0")
 
 [node name="Main" type="Node2D" unique_id=1026548847]
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=721475570]
-anchor_mode = 0
-script = ExtResource("1_wkp8b")
-
 [node name="World" type="Node2D" parent="." unique_id=1704474968]
 script = ExtResource("2_r0du0")
 
@@ -44,6 +40,10 @@ script = ExtResource("4_lgr22")
 
 [node name="SelectedBuildingHighlighter" type="Node2D" parent="World" unique_id=258043482]
 script = ExtResource("6_03owx")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=721475570]
+anchor_mode = 0
+script = ExtResource("1_wkp8b")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2135618060]
 

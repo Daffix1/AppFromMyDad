@@ -63,3 +63,15 @@ func generate_map() -> void:
 				ground_source_id,
 				Vector2i.ZERO
 			)
+
+func get_map_world_rect() -> Rect2:
+	var tile_size := Vector2(ground_layer.tile_set.tile_size)
+	var first_cell_centre := ground_layer.map_to_local(Vector2i.ZERO)
+	var map_top_left := first_cell_centre - tile_size / 2
+	
+	var map_size := Vector2(
+		map_width * tile_size.x,
+		map_height * tile_size.y
+		)
+	var world_top_left := ground_layer.to_global(map_top_left)
+	return Rect2(world_top_left, map_size)
