@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cnkxjlrytbh14" path="res://scripts/world/CellHighlighter.gd" id="4_lgr22"]
 [ext_resource type="TileSet" uid="uid://bu5qtasolax21" path="res://resources/tilesets/preview_building_tile_set.tres" id="4_trn2v"]
 [ext_resource type="Script" uid="uid://cjv1dsqr5lomu" path="res://scripts/world/SelectedBuildingHighlighter.gd" id="6_03owx"]
+[ext_resource type="Script" uid="uid://c6wgaii0j5iow" path="res://scripts/world/ProductionPopupController.gd" id="7_20pc6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r0du0"]
 texture = ExtResource("3_cm0pq")
@@ -40,6 +41,9 @@ script = ExtResource("4_lgr22")
 
 [node name="SelectedBuildingHighlighter" type="Node2D" parent="World" unique_id=258043482]
 script = ExtResource("6_03owx")
+
+[node name="ProductionPopupController" type="Node2D" parent="World" unique_id=899197003]
+script = ExtResource("7_20pc6")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=721475570]
 anchor_mode = 0
@@ -128,6 +132,9 @@ text = "Производство - "
 [node name="SelectedBuildingProgressLabel" type="Label" parent="CanvasLayer/SelectedBuildingPanel" unique_id=429000745]
 layout_mode = 2
 text = "Прогресс - "
+
+[node name="SelectedBuildingProgressBar" type="ProgressBar" parent="CanvasLayer/SelectedBuildingPanel" unique_id=937925872]
+layout_mode = 2
 
 [node name="SelectedBuildingStatusLabel" type="Label" parent="CanvasLayer/SelectedBuildingPanel" unique_id=1005990223]
 layout_mode = 2

@@ -2,6 +2,12 @@ extends Node
 
 signal building_processing_progress_changed
 
+signal resource_produced(
+	cell: Vector2i,
+	resource_id: String,
+	amount: int
+)
+
 const PRODUCTION_TICK_SECONDS: float = 1.0
 
 func _ready() -> void:
@@ -23,7 +29,11 @@ func produce_resources(delta_seconds: float) -> void:
 			continue
 		
 		if has_passive_production(building_data):
-			produce_passive_resources(building_data, workers)
+			produce_passive_resources(
+				building["cell"],
+				building_data,
+				workers
+				)
 			
 		if has_processing_production(building_data):
 			process_building_cycle(building, building_data, workers, delta_seconds)
@@ -41,12 +51,18 @@ func has_processing_production(building_data: BuildingData) -> bool:
 	)
 
 
-func produce_passive_resources(building_data: BuildingData, workers: int) -> void:
+func produce_passive_resources(cell: Vector2i, building_data: BuildingData, workers: int) -> void:
 	for resource_id in building_data.production_per_second.keys():
 		var amount: int = building_data.production_per_second[resource_id]
 		var total_amount := amount * workers
 		
 		ResourceManager.add_resource(resource_id, total_amount)
+		
+		resource_produced.emit(
+			cell,
+			String(resource_id),
+			total_amount
+			)
 	
 		print(
 			building_data.building_name,
@@ -99,7 +115,18 @@ func process_building_cycle(building: Dictionary, building_data: BuildingData, w
 	building_processing_progress_changed.emit(building["cell"], building)
 
 	for resource_id in total_output.keys():
-		ResourceManager.add_resource(resource_id, total_output[resource_id])
+		var produced_amount: int = total_output[resource_id]
+
+		ResourceManager.add_resource(
+			resource_id,
+			produced_amount
+		)
+
+		resource_produced.emit(
+			building["cell"],
+			String(resource_id),
+			produced_amount
+		)
 
 	print(
 		building_data.building_name,
