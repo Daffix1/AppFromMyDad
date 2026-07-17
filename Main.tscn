@@ -11,6 +11,7 @@
 [ext_resource type="TileSet" uid="uid://bu5qtasolax21" path="res://resources/tilesets/preview_building_tile_set.tres" id="4_trn2v"]
 [ext_resource type="Script" uid="uid://cjv1dsqr5lomu" path="res://scripts/world/SelectedBuildingHighlighter.gd" id="6_03owx"]
 [ext_resource type="Script" uid="uid://c6wgaii0j5iow" path="res://scripts/world/ProductionPopupController.gd" id="7_20pc6"]
+[ext_resource type="Script" uid="uid://cgp5wrhx04566" path="res://scripts/ui/EraPanel.gd" id="12_5vvyt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r0du0"]
 texture = ExtResource("3_cm0pq")
@@ -83,9 +84,10 @@ custom_minimum_size = Vector2(260, 0)
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -210.0
-offset_right = 260.0
-offset_bottom = 210.0
+offset_left = 12.0
+offset_top = -216.0
+offset_right = 272.0
+offset_bottom = 204.0
 grow_vertical = 2
 
 [node name="BuildMenuContainer" type="VBoxContainer" parent="CanvasLayer/LeftPanel" unique_id=290582852]
@@ -150,3 +152,19 @@ text = "+"
 [node name="RemoveWorkerButton" type="Button" parent="CanvasLayer/SelectedBuildingPanel/WorkerButtonsContainer" unique_id=736366879]
 layout_mode = 2
 text = "-"
+
+[node name="EraPanel" type="VBoxContainer" parent="CanvasLayer" unique_id=547887360]
+offset_left = 896.0
+offset_top = 116.0
+offset_right = 1138.0
+offset_bottom = 177.0
+accessibility_region = true
+script = ExtResource("12_5vvyt")
+
+[node name="EraNameLabel" type="Label" parent="CanvasLayer/EraPanel" unique_id=167311274]
+layout_mode = 2
+text = "Эпоха"
+
+[node name="AdvanceEraButton" type="Button" parent="CanvasLayer/EraPanel" unique_id=1613867577]
+layout_mode = 2
+text = "Перейти в следующую эпоху"

@@ -62,6 +62,12 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 
 	if building_data == null:
 		return false
+	if building_data.is_wonder() and has_placed_wonder(building_data.id):
+		show_building_message(
+			"Чудо света уже построено: " +
+			building_data.building_name
+		)
+		return false
 
 	if not can_place_building(cell):
 		show_building_message("Клетка занята:")
@@ -84,7 +90,9 @@ func place_building(cell: Vector2i, building_id: String) -> bool:
 		"cell": cell,
 		"workers": 0,
 		"processing_progress": 0.0,
-		"is_processing": false
+		"is_processing": false,
+		"construction_progress": 0.0,
+		"is_constructed": not building_data.requires_construction()
 	}
 
 	building_placed.emit(cell, building_data)
@@ -120,6 +128,9 @@ func get_building_count(building_id: String) -> int:
 			count += 1
 			
 	return count
+
+func has_placed_wonder(wonder_id: String) -> bool:
+	return get_building_count(wonder_id) > 0
 
 
 func select_placed_building(cell: Vector2i) -> void:

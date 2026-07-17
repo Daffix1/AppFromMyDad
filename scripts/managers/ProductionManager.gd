@@ -1,6 +1,8 @@
 extends Node
 
 signal building_processing_progress_changed
+signal building_construction_progress_changed
+signal wonder_construction_completed
 
 signal resource_produced(
 	cell: Vector2i,
@@ -23,6 +25,15 @@ func start_production_loop() -> void:
 func produce_resources(delta_seconds: float) -> void:
 	for building in BuildingManager.placed_buildings.values():
 		var building_data: BuildingData = building["data"]
+		if building_data.requires_construction():
+			if not building.get("is_constructed", false):
+				process_wonder_construction(
+					building,
+					building_data,
+					delta_seconds
+				)
+				continue
+			
 		var workers: int = building["workers"]
 		
 		if workers <= 0:
@@ -37,6 +48,44 @@ func produce_resources(delta_seconds: float) -> void:
 			
 		if has_processing_production(building_data):
 			process_building_cycle(building, building_data, workers, delta_seconds)
+
+func process_wonder_construction(
+	building: Dictionary,
+	building_data: BuildingData,
+	delta_seconds: float
+) -> void:
+	building["construction_progress"] += delta_seconds
+
+	building_construction_progress_changed.emit(
+		building["cell"],
+		building
+	)
+
+	if building["construction_progress"] < building_data.wonder_construction_time:
+		return
+
+	building["construction_progress"] = building_data.wonder_construction_time
+	building["is_constructed"] = true
+
+	building_construction_progress_changed.emit(
+		building["cell"],
+		building
+	)
+
+	wonder_construction_completed.emit(
+		building["cell"],
+		building
+	)
+
+	BuildingManager.show_building_message(
+		"Строительство завершено: "
+		+ building_data.building_name
+	)
+
+	print(
+		"Чудо света построено: ",
+		building_data.building_name
+	)
 
 
 func has_passive_production(building_data: BuildingData) -> bool:

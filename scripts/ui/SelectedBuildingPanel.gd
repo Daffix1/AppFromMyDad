@@ -23,6 +23,7 @@ func _ready() -> void:
 	BuildingManager.building_selected.connect(_on_building_selected)
 	BuildingManager.building_workers_changed.connect(_on_building_workers_changed)
 	ProductionManager.building_processing_progress_changed.connect(_on_building_processing_progress_changed)
+	ProductionManager.building_construction_progress_changed.connect(_on_building_construction_progress_changed)
 	PopulationManager.population_changed.connect(refresh)
 	ResourceManager.resources_changed.connect(refresh)
 
@@ -70,10 +71,20 @@ func update_panel(building: Dictionary) -> void:
 	production_label.text = get_building_production_text(building_data)
 	update_progress(building)
 
-	remove_worker_button.disabled = workers <= 0
+	var is_under_construction: bool = (
+		building_data.requires_construction()
+		and not building.get("is_constructed", false)
+	)
+
+	remove_worker_button.disabled = (
+		workers <= 0
+		or is_under_construction
+	)
+
 	add_worker_button.disabled = (
 		workers >= building_data.worker_slots
 		or PopulationManager.free_population <= 0
+		or is_under_construction
 	)
 
 
@@ -101,7 +112,7 @@ func _on_building_workers_changed(cell: Vector2i, building: Dictionary) -> void:
 func _on_building_processing_progress_changed(cell: Vector2i, building: Dictionary) -> void:
 	if cell != selected_building_cell:
 		return
-
+	
 	update_progress(building)
 	status_label.text = get_building_status_text(building)
 
@@ -109,7 +120,15 @@ func _on_building_processing_progress_changed(cell: Vector2i, building: Dictiona
 		"font_color",
 		get_building_status_color(building)
 	)
+	
+func _on_building_construction_progress_changed(
+	cell: Vector2i,
+	building: Dictionary
+) -> void:
+	if cell != selected_building_cell:
+		return
 
+	update_panel(building)
 
 func get_building_production_text(building_data: BuildingData) -> String:
 	var lines: Array[String] = []
@@ -138,6 +157,11 @@ func get_building_production_text(building_data: BuildingData) -> String:
 func get_building_status_text(building: Dictionary) -> String:
 	var building_data: BuildingData = building["data"]
 	var workers: int = building["workers"]
+	if building_data.requires_construction():
+		if not building.get("is_constructed", false):
+			return "Статус: Строится"
+
+		return "Статус: Чудо света построено"
 
 	if workers <= 0:
 		return "Статус: Нет рабочих"
@@ -163,6 +187,9 @@ func get_building_status_text(building: Dictionary) -> String:
 
 func update_progress(building: Dictionary) -> void:
 	var building_data: BuildingData = building["data"]
+	if building_data.requires_construction():
+		update_wonder_construction_progress(building, building_data)
+		return
 
 	if building_data.processing_output.is_empty():
 		progress_label.visible = false
@@ -204,6 +231,12 @@ func get_building_status_color(building: Dictionary) -> Color:
 	var building_data: BuildingData = building["data"]
 	var workers: int = building["workers"]
 
+	if building_data.requires_construction():
+		if not building.get("is_constructed", false):
+			return Color("#AB47BC")
+
+		return Color("#FFD54F")
+		
 	if workers <= 0:
 		return Color("#FFB74D")
 
@@ -226,3 +259,38 @@ func get_building_status_color(building: Dictionary) -> Color:
 		return Color("#EF5350")
 
 	return Color("#42A5F5")
+
+func update_wonder_construction_progress(
+	building: Dictionary,
+	building_data: BuildingData
+) -> void:
+	progress_label.visible = true
+	progress_bar.visible = true
+
+	progress_bar.min_value = 0.0
+	progress_bar.max_value = building_data.wonder_construction_time
+	progress_bar.show_percentage = false
+
+	var construction_progress: float = building.get(
+		"construction_progress",
+		0.0
+	)
+
+	progress_bar.value = construction_progress
+
+	if building.get("is_constructed", false):
+		progress_bar.value = building_data.wonder_construction_time
+		progress_label.text = "Строительство завершено"
+		return
+
+	var progress_percent: int = roundi(
+		construction_progress
+		/ building_data.wonder_construction_time
+		* 100.0
+	)
+
+	progress_label.text = (
+		"Прогресс строительства: "
+		+ str(progress_percent)
+		+ "%"
+	)

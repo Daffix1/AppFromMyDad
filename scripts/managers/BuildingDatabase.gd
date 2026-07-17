@@ -10,6 +10,7 @@ func load_buildings() -> void:
 	register_building("res://buildings/lumber_mill.tres")
 	register_building("res://buildings/farm.tres")
 	register_building("res://buildings/bakery.tres")
+	register_building("res://buildings/stonehenge.tres")
 
 
 func register_building(path: String) -> void:

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://qkhnqmyjl415"]
+
+[ext_resource type="Script" uid="uid://8it2h0lnyavq" path="res://scripts/data/BuildingData.gd" id="1_s76nk"]
+
+[resource]
+script = ExtResource("1_s76nk")
+id = "stonehenge"
+building_name = "Стоунхендж"
+building_type = 1
+worker_slots = 5
+resource_costs = {
+"bread": 50,
+"food": 200,
+"wood": 300
+}
+wonder_construction_time = 10.0
+tile_source_id = 3
+metadata/_custom_type_script = "uid://8it2h0lnyavq"

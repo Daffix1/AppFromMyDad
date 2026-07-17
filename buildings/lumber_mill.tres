@@ -12,6 +12,6 @@ resource_costs = {
 "wood": 10
 }
 production_per_second = {
-"wood": 2
+"wood": 200
 }
 metadata/_custom_type_script = "uid://8it2h0lnyavq"

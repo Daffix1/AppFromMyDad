@@ -11,12 +11,13 @@ resource_costs = {
 "food": 10,
 "wood": 20
 }
+processing_time = 1.0
 processing_input = {
 "food": 3,
 "wood": 1
 }
 processing_output = {
-"bread": 1
+"bread": 100
 }
 tile_source_id = 1
 metadata/_custom_type_script = "uid://8it2h0lnyavq"
