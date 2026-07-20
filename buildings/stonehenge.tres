@@ -13,6 +13,6 @@ resource_costs = {
 "food": 200,
 "wood": 300
 }
-wonder_construction_time = 10.0
+wonder_construction_time = 1.0
 tile_source_id = 3
 metadata/_custom_type_script = "uid://8it2h0lnyavq"
